@@ -5,7 +5,7 @@ namespace T3\Dce\UserFunction;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use Doctrine\DBAL\ArrayParameterType;
@@ -44,7 +44,7 @@ class ItemsProcFunc
         }
         if (isset($parameters['row']['enable_container'])
             && $parameters['row']['enable_container']
-            && $parameters['field'] !== 'backend_view_header'
+            && 'backend_view_header' !== $parameters['field']
         ) {
             $parameters['items'][] = [
                 'label' => $ll . 'containerflag',
@@ -113,9 +113,9 @@ class ItemsProcFunc
             'tx_dce_slug',
         ];
         // Do not show column which has been provided by itself
-        if ('tx_dce_domain_model_dcefield' === $parameters['table'] &&
-            '*newcol' === $parameters['row']['map_to'] &&
-            !empty($parameters['row']['new_tca_field_name'])
+        if ('tx_dce_domain_model_dcefield' === $parameters['table']
+            && '*newcol' === $parameters['row']['map_to']
+            && !empty($parameters['row']['new_tca_field_name'])
         ) {
             $excludedColumns[] = $parameters['row']['new_tca_field_name'];
         }
@@ -249,7 +249,7 @@ class ItemsProcFunc
         // TYPO3 Extension Icons
         $parameters['items'][] = [$ll . 'wizardIcon.extensions', '--div--'];
 
-        /** @var \ArrayObject  $extensionIcons */
+        /** @var \ArrayObject $extensionIcons */
         $extensionIcons = $this->container->get('icons');
         foreach ($extensionIcons as $identifier => $config) {
             $parameters['items'][] = [$identifier, $identifier, $identifier];

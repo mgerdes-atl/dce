@@ -5,7 +5,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2019-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2019-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -38,8 +38,8 @@ class CacheManager
             }
         }
 
-        if (isset($GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']) &&
-            $GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache'])
+            && $GLOBALS['TYPO3_CONF_VARS']['USER']['disable_dce_code_cache']
         ) {
             $this->enabled = false;
         }

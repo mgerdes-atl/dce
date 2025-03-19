@@ -5,7 +5,7 @@ namespace T3\Dce\Domain\Model;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
@@ -61,18 +61,12 @@ class DceField extends AbstractEntity
     protected $newTcaFieldType = '';
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>
      */
     protected $sectionFields;
 
-    /**
-     * @var \T3\Dce\Domain\Model\Dce
-     */
     protected ?Dce $parentDce = null;
 
-    /**
-     * @var \T3\Dce\Domain\Model\DceField
-     */
     protected ?DceField $parentField = null;
 
     /**
@@ -189,17 +183,11 @@ class DceField extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getValue()
     {
         return $this->value;
     }
 
-    /**
-     * @param mixed $value
-     */
     public function setValue($value): self
     {
         $this->value = $value;
@@ -220,7 +208,7 @@ class DceField extends AbstractEntity
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\T3\Dce\Domain\Model\DceField>|null
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<DceField>|null
      */
     public function getSectionFields(): ?\TYPO3\CMS\Extbase\Persistence\ObjectStorage
     {
@@ -337,7 +325,7 @@ class DceField extends AbstractEntity
         $configuration = $this->getConfigurationAsArray();
         $configuration = $configuration['config'];
 
-        return ('inline' === $configuration['type'] && 'sys_file_reference' === $configuration['foreign_table']) ||
-            'file' === $configuration['type'];
+        return ('inline' === $configuration['type'] && 'sys_file_reference' === $configuration['foreign_table'])
+            || 'file' === $configuration['type'];
     }
 }

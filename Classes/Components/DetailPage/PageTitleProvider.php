@@ -7,7 +7,7 @@ namespace T3\Dce\Components\DetailPage;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2020-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2020-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Model\Dce;
 use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
@@ -18,10 +18,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class PageTitleProvider extends AbstractPageTitleProvider
 {
-    /**
-     * @var array|null
-     */
-    private static $typoScriptSettings;
+    private static ?array $typoScriptSettings = null;
+
+    public function __construct()
+    {
+        if (method_exists($this, 'setRequest')) {
+            $this->setRequest($GLOBALS['TYPO3_REQUEST']);
+        }
+    }
 
     public function generate(Dce $dce): void
     {
@@ -40,11 +44,14 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var RecordPageTitleProvider $pageTitle */
         $pageTitle = GeneralUtility::makeInstance(RecordPageTitleProvider::class);
+        if (method_exists($pageTitle, 'setRequest')) {
+            $pageTitle->setRequest($this->request);
+        }
         $originalPageTitle = $pageTitle->getTitle();
 
         $dceTitle = $this->buildDceTitle($dce);
         $settings = $this->getTypoScriptSettings();
-        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['prependWrap']);
+        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['prependWrap'] ?? '');
 
         $this->title = $dceTitleWithWrap . $originalPageTitle;
     }
@@ -53,11 +60,14 @@ class PageTitleProvider extends AbstractPageTitleProvider
     {
         /** @var RecordPageTitleProvider $pageTitle */
         $pageTitle = GeneralUtility::makeInstance(RecordPageTitleProvider::class);
+        if (method_exists($pageTitle, 'setRequest')) {
+            $pageTitle->setRequest($this->request);
+        }
         $originalPageTitle = $pageTitle->getTitle();
 
         $dceTitle = $this->buildDceTitle($dce);
         $settings = $this->getTypoScriptSettings();
-        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['appendWrap']);
+        $dceTitleWithWrap = $this->wrapDceTitle($dceTitle, $settings['appendWrap'] ?? '');
 
         $this->title = $originalPageTitle . $dceTitleWithWrap;
     }

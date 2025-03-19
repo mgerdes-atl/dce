@@ -5,7 +5,7 @@ namespace T3\Dce\UserFunction\CustomLabels;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Components\BackendView\SimpleBackendView;
 use T3\Dce\Domain\Model\Dce;
@@ -33,8 +33,8 @@ class TtContentLabel
         if (!isset($parameter['row']) || !isset($parameter['row']['CType']) || !isset($parameter['row'][$GLOBALS['TCA']['tt_content']['ctrl']['label']])) {
             return;
         }
-        if ((\is_string($parameter['row']['CType']) || is_array($parameter['row']['CType'])) &&
-            $this->isDceContentElement($parameter['row'])
+        if ((\is_string($parameter['row']['CType']) || is_array($parameter['row']['CType']))
+            && $this->isDceContentElement($parameter['row'])
         ) {
             try {
                 $dceUid = $parameter['row']['uid'] ?? null;
@@ -42,15 +42,15 @@ class TtContentLabel
                     $dceUid = array_keys($_GET['edit']['tt_content'])[0];
                 }
 
-                if ($dceUid === 0 || ($_GET['edit']['tt_content'][$dceUid] ?? '') === 'new') {
+                if (0 === $dceUid || ($_GET['edit']['tt_content'][$dceUid] ?? '') === 'new') {
                     $parameter['title'] = 'New DCE';
+
                     return;
                 }
 
-                if ($dceUid === null || $dceUid < 0) {
+                if (null === $dceUid || $dceUid < 0) {
                     return;
                 }
-
 
                 /** @var Dce $dce */
                 $dce = DatabaseUtility::getDceObjectForContentElement($dceUid, true);

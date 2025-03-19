@@ -7,12 +7,14 @@ namespace T3\Dce\UpdateWizards;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2023-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2023-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
 use T3\Dce\Utility\FlexformService;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+#[UpgradeWizard('dceInlineFalToFileUpdateWizard')]
 class InlineFalToFileUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */
@@ -81,7 +83,7 @@ class InlineFalToFileUpdateWizard implements UpgradeWizardInterface
             $newConfig .= '</config>' . PHP_EOL;
 
             $newConfig = trim($newConfig);
-            $newConfig = preg_replace('/(.*?)(<config>.*<\/config>)(.*?)/is', '$1' . $newConfig . '$3', $affectedFieldRow['configuration']);;
+            $newConfig = preg_replace('/(.*?)(<config>.*<\/config>)(.*?)/is', '$1' . $newConfig . '$3', $affectedFieldRow['configuration']);
 
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tx_dce_domain_model_dcefield');
             $connection->update(
@@ -94,9 +96,10 @@ class InlineFalToFileUpdateWizard implements UpgradeWizardInterface
         return true;
     }
 
-    private function getAffectedDceFieldRows(): ?array
+    private function getAffectedDceFieldRows(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('tx_dce_domain_model_dcefield');
+
         return $queryBuilder
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')

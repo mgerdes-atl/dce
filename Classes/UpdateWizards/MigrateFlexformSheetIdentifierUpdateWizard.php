@@ -7,13 +7,14 @@ namespace T3\Dce\UpdateWizards;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2020-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2020-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
@@ -34,6 +35,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  *
  * Please migrate the field database relations first, before executing this update!
  */
+#[UpgradeWizard('dceMigrateFlexformSheetIdentifierUpdate')]
 class MigrateFlexformSheetIdentifierUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */

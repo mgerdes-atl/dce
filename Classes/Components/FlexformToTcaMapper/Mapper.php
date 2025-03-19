@@ -5,7 +5,7 @@ namespace T3\Dce\Components\FlexformToTcaMapper;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
@@ -48,7 +48,6 @@ class Mapper
             $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
                 'tx_dce_domain_model_dcefield'
             );
-            /** @var array|bool $rows */
             $rows = $queryBuilder
                 ->select('*')
                 ->from('tx_dce_domain_model_dcefield')
@@ -73,10 +72,6 @@ class Mapper
                 ->executeQuery()
                 ->fetchAllAssociative();
         } catch (\Exception $exception) {
-            return [];
-        }
-
-        if (false === $rows) {
             return [];
         }
 
@@ -188,8 +183,8 @@ class Mapper
             foreach (array_keys($updateData) as $columnName) {
                 if (!array_key_exists($columnName, $databaseColumns)) {
                     $tcaMappings = array_flip($fieldToTcaMappings);
-                    $fieldName = $tcaMappings[$columnName];
-                    throw new \InvalidArgumentException('You\'ve mapped the DCE field "' . ($fieldName ?? '') . '" (of DCE with uid ' . $dceUid . ') to the ' . 'non-existing tt_content column "' . $columnName . '". Please update your mapping or ensure ' . 'that the tt_content column is existing in database.');
+                    $fieldName = $tcaMappings[$columnName] ?? '';
+                    throw new \InvalidArgumentException('You\'ve mapped the DCE field "' . $fieldName . '" (of DCE with uid ' . $dceUid . ') to the non-existing tt_content column "' . $columnName . '". Please update your mapping or ensure that the tt_content column is existing in database.');
                 }
             }
             $connection = DatabaseUtility::getConnectionPool()->getConnectionForTable('tt_content');

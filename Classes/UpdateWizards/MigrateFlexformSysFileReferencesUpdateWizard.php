@@ -7,13 +7,15 @@ namespace T3\Dce\UpdateWizards;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2023-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2023-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
+#[UpgradeWizard('dceMigrateFlexformSysFileReferencesUpdateWizard')]
 class MigrateFlexformSysFileReferencesUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */
@@ -68,7 +70,7 @@ class MigrateFlexformSysFileReferencesUpdateWizard implements UpgradeWizardInter
         return true;
     }
 
-    private function getAffectedSysFileReferenceRows(): ?array
+    private function getAffectedSysFileReferenceRows(): array
     {
         $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable('sys_file_reference');
         $queryBuilder

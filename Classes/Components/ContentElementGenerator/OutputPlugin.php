@@ -5,7 +5,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -76,8 +76,8 @@ class OutputPlugin implements OutputInterface
 
                     PHP;
                 // When FSC/CSC is not installed
-                if (!$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'] ||
-                    empty($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'])
+                if (!$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates']
+                    || empty($GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'])
                 ) {
                     $sourceCode .= <<<PHP
                             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('

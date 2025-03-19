@@ -5,7 +5,7 @@ namespace T3\Dce\Components\ContentElementGenerator;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
@@ -39,8 +39,8 @@ class InputDatabase implements InputInterface
     public function getDces(bool $includeHidden = false): array
     {
         $tables = DatabaseUtility::adminGetTables();
-        if (!\array_key_exists('tx_dce_domain_model_dce', $tables) ||
-            !\array_key_exists('tx_dce_domain_model_dcefield', $tables)
+        if (!\array_key_exists('tx_dce_domain_model_dce', $tables)
+            || !\array_key_exists('tx_dce_domain_model_dcefield', $tables)
         ) {
             return [];
         }
@@ -92,8 +92,8 @@ class InputDatabase implements InputInterface
 
         $dces = $this->buildDcesArray($dceModelRows, $dceFieldRowsByParentDce, $dceFieldRowsByParentDceField);
 
-        if (ExtensionManagementUtility::isLoaded('gridelements') ||
-            ExtensionManagementUtility::isLoaded('container')
+        if (ExtensionManagementUtility::isLoaded('gridelements')
+            || ExtensionManagementUtility::isLoaded('container')
         ) {
             $dces = $this->ensureContainerColPosFieldCompatibility($dces);
         }

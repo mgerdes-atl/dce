@@ -7,15 +7,17 @@ namespace T3\Dce\UpdateWizards;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2020-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2020-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Migrate m:n-relation of dce fields to 1:n-relation.
  */
+#[UpgradeWizard('dceMigrateDceFieldDatabaseRelationUpdate')]
 class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */
@@ -44,9 +46,9 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
     public function updateNecessary(): bool
     {
         $dceFieldTableFields = DatabaseUtility::adminGetFields('tx_dce_domain_model_dcefield');
-        if (!array_key_exists('parent_dce', $dceFieldTableFields) ||
-            !array_key_exists('parent_field', $dceFieldTableFields) ||
-            !array_key_exists('sorting', $dceFieldTableFields)
+        if (!array_key_exists('parent_dce', $dceFieldTableFields)
+            || !array_key_exists('parent_field', $dceFieldTableFields)
+            || !array_key_exists('sorting', $dceFieldTableFields)
         ) {
             $this->description = 'WARNING!' . PHP_EOL .
                 'The database table of DceFields has no "parent_dce" and/or "parent_field" and/or ' .
@@ -85,8 +87,6 @@ class MigrateDceFieldDatabaseRelationUpdateWizard implements UpgradeWizardInterf
 
     /**
      * @param string|array|mixed $customMessages Used in older TYPO3 versions
-     *
-     * @return bool
      */
     public function update($customMessages = null): ?bool
     {

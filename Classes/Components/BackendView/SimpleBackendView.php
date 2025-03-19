@@ -5,7 +5,7 @@ namespace T3\Dce\Components\BackendView;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use Symfony\Component\ExpressionLanguage\SyntaxError;
@@ -228,7 +228,7 @@ class SimpleBackendView
                 'width' => PageTsUtility::get('tx_dce.defaults.simpleBackendView.imageWidth', '50c'),
                 'height' => PageTsUtility::get('tx_dce.defaults.simpleBackendView.imageWidth', '50'),
             ]);
-            $imageTags[] = '<img src="' . $image->getPublicUrl(true) . '" class="dceFieldImage">';
+            $imageTags[] = '<img src="' . $image->getPublicUrl() . '" class="dceFieldImage">';
         }
 
         return implode('', $imageTags);

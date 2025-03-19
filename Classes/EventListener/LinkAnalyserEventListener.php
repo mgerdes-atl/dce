@@ -5,7 +5,7 @@ namespace T3\Dce\EventListener;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -42,11 +42,11 @@ class LinkAnalyserEventListener
 
                 if (!empty($fieldValue) && !is_numeric($fieldValue) && str_contains($fieldValue, '://')) {
                     // Check for typolink (string, without new lines or < > signs)
-                    if (\is_string($fieldValue) &&
-                        !str_contains($fieldValue, "\n") &&
-                        !str_contains($fieldValue, ' ') &&
-                        !str_contains($fieldValue, '<') &&
-                        !str_contains($fieldValue, '>')
+                    if (\is_string($fieldValue)
+                        && !str_contains($fieldValue, "\n")
+                        && !str_contains($fieldValue, ' ')
+                        && !str_contains($fieldValue, '<')
+                        && !str_contains($fieldValue, '>')
                     ) {
                         $fieldValue = '<a href="' . $fieldValue . '">Typolink</a>';
                     }

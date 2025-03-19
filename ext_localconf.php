@@ -3,7 +3,7 @@
 /*  | This extension is made for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('dce');
@@ -36,20 +36,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']
 [\T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator::class] =
     'EXT:dce/Classes/UserFunction/CustomFieldValidation/NoLeadingNumberValidator.php';
-
-// Update Scripts
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateDceFieldDatabaseRelationUpdate'] =
-    \T3\Dce\UpdateWizards\MigrateDceFieldDatabaseRelationUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSheetIdentifierUpdate'] =
-    \T3\Dce\UpdateWizards\MigrateFlexformSheetIdentifierUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFixMalformedDceFieldVariableNamesUpdate'] =
-    \T3\Dce\UpdateWizards\FixMalformedDceFieldVariableNamesUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceFileToFalUpdate'] =
-    \T3\Dce\UpdateWizards\FileToFalUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceInlineFalToFileUpdateWizard'] =
-    \T3\Dce\UpdateWizards\InlineFalToFileUpdateWizard::class;
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['dceMigrateFlexformSysFileReferencesUpdateWizard'] =
-    \T3\Dce\UpdateWizards\MigrateFlexformSysFileReferencesUpdateWizard::class;
 
 // Logger for update scripts
 $GLOBALS['TYPO3_CONF_VARS']['LOG']['T3']['Dce']['UpdateWizards']['writerConfiguration'] = [
@@ -103,6 +89,29 @@ $generator->makePluginConfiguration();
         }
     }
 }');
+
+// Register global TypoScript
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript('dce', 'setup', '
+plugin.tx_dce.persistence.storagePid = 0
+
+# Disable ce wrapping (for dce)
+tt_content.stdWrap.innerWrap.cObject.default.stdWrap.if {
+    value := addToList(dce_dceuid0)
+    isInList.field = CType
+    negate = 1
+}
+
+lib.contentElement.templateRootPaths.1 = EXT:dce/Resources/Private/Templates
+
+config.pageTitleProviders.dce {
+    provider = T3\Dce\Components\DetailPage\PageTitleProvider
+    before = record
+    after = altPageTitle
+
+    prependWrap = || - |
+    appendWrap = | - ||
+}
+');
 
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('linkvalidator')) {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(

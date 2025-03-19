@@ -7,13 +7,14 @@ namespace T3\Dce\UpdateWizards;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2021-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2021-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator;
 use T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator;
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Attribute\UpgradeWizard;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
@@ -26,6 +27,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  * This update checks if such fields exist and correct them in tt_content's pi_flexform column and in DceFields.
  * It does not correct the fluid templates for you!
  */
+#[UpgradeWizard('dceFixMalformedDceFieldVariableNamesUpdate')]
 class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInterface
 {
     /** @var string */
@@ -152,8 +154,8 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
      *
      * @return array DceField rows
      *
-     * @see \T3\Dce\UserFunction\CustomFieldValidation\NoLeadingNumberValidator
-     * @see \T3\Dce\UserFunction\CustomFieldValidation\LowerCamelCaseValidator
+     * @see NoLeadingNumberValidator
+     * @see LowerCamelCaseValidator
      */
     protected function getDceFieldsWithMalformedVariableNames(): array
     {
@@ -162,7 +164,7 @@ class FixMalformedDceFieldVariableNamesUpdateWizard implements UpgradeWizardInte
             ->select('*')
             ->from('tx_dce_domain_model_dcefield')
             ->where(
-                $queryBuilder->expr()->eq(
+                $queryBuilder->expr()->neq(
                     'variable',
                     $queryBuilder->createNamedParameter('')
                 )

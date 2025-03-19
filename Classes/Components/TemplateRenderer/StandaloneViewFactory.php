@@ -5,7 +5,7 @@ namespace T3\Dce\Components\TemplateRenderer;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Model\Dce;
 use T3\Dce\Utility\TypoScript;
@@ -51,9 +51,7 @@ class StandaloneViewFactory implements SingletonInterface
     /**
      * Creates new standalone view or returns cached one, if existing.
      *
-     * @param Dce $dce
      * @param int $templateType see class constants
-     * @return StandaloneView
      */
     public function getDceTemplateView(Dce $dce, int $templateType): StandaloneView
     {
@@ -87,8 +85,6 @@ class StandaloneViewFactory implements SingletonInterface
      * Applies the correct template (inline or file) to given StandaloneView instance.
      * The given templateType is respected.
      *
-     * @param StandaloneView $view
-     * @param Dce $dce
      * @param int $templateType see class constants
      */
     protected function applyDceTemplateTypeToView(StandaloneView $view, Dce $dce, int $templateType): void
@@ -150,7 +146,7 @@ class StandaloneViewFactory implements SingletonInterface
     }
 
     /**
-     * Returns the typoscript configuration for path : plugin.tx_dce.view
+     * Returns the typoscript configuration for path : plugin.tx_dce.view.
      */
     protected function getTyposcriptViewPaths(): array
     {
@@ -170,7 +166,7 @@ class StandaloneViewFactory implements SingletonInterface
     }
 
     /**
-     * Resolve file paths for entire array
+     * Resolve file paths for entire array.
      */
     protected function resolvePaths(array $paths): array
     {

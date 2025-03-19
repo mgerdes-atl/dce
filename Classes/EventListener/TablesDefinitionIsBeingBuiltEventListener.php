@@ -5,7 +5,7 @@ namespace T3\Dce\EventListener;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Components\FlexformToTcaMapper\Mapper;
@@ -29,9 +29,9 @@ class TablesDefinitionIsBeingBuiltEventListener
     {
         $dbFields = DatabaseUtility::adminGetFields('tx_dce_domain_model_dcefield');
 
-        return \array_key_exists('map_to', $dbFields) &&
-               \array_key_exists('new_tca_field_name', $dbFields) &&
-               \array_key_exists('new_tca_field_type', $dbFields);
+        return \array_key_exists('map_to', $dbFields)
+               && \array_key_exists('new_tca_field_name', $dbFields)
+               && \array_key_exists('new_tca_field_type', $dbFields);
     }
 
     /**

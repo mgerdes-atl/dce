@@ -1,10 +1,13 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
+
 namespace T3\Dce\EventListener;
 
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  */
 use T3\Dce\Domain\Repository\DceRepository;
 use T3\Dce\Utility\BackendModuleLinkUtility;
@@ -80,6 +83,7 @@ class ModifyButtonBarEventListener
             return (int)trim($contentUid, ',');
 
         }
+
         return $contentUid;
     }
 
@@ -97,7 +101,7 @@ class ModifyButtonBarEventListener
     }
 
     /**
-     * Checks if the current logged-in user is admin
+     * Checks if the current logged-in user is admin.
      */
     private function userIsAdmin(): bool
     {

@@ -5,12 +5,12 @@ namespace T3\Dce\ViewHelpers;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -62,7 +62,7 @@ class FalViewHelper extends AbstractViewHelper
     {
         $contentObjectUid = (int)$this->arguments['contentObject']['uid'];
         if (isset($this->arguments['localizedUid']) && ($this->arguments['contentObject']['_LOCALIZED_UID'] ?? null)) {
-            $contentObjectUid = (int) $this->arguments['contentObject']['_LOCALIZED_UID'];
+            $contentObjectUid = (int)$this->arguments['contentObject']['_LOCALIZED_UID'];
         }
 
         if ($this->arguments['uid'] > 0) {
@@ -90,11 +90,11 @@ class FalViewHelper extends AbstractViewHelper
             ->orderBy('sorting_foreign', 'ASC');
         $rows = DatabaseUtility::getRowsFromQueryBuilder($queryBuilder, 'uid');
 
-        /** @var FileRepository $fileRepository */
-        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+        /** @var ResourceFactory $resourceFactory */
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $result = [];
         foreach ($rows as $referenceUid) {
-            $result[] = $fileRepository->findFileReferenceByUid((int)$referenceUid['uid']);
+            $result[] = $resourceFactory->getFileReferenceObject((int)$referenceUid['uid']);
         }
 
         return $result;

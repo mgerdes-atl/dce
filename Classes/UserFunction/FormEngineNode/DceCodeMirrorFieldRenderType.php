@@ -5,7 +5,7 @@ namespace T3\Dce\UserFunction\FormEngineNode;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use T3\Dce\Components\TemplateRenderer\StandaloneViewFactory;
@@ -21,7 +21,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Note: Currently (since DCE 3.0) the CodeMirror editor is not included in DCE extension anymore
- *       It is planned to reimplement CodeMirror integration (ES6) in future DCE versions (based on EXT:t3editor)
+ *       It is planned to reimplement CodeMirror integration (ES6) in future DCE versions (based on EXT:t3editor).
  *
  * @see \T3\Dce\EventListener\AfterFormEnginePageInitializedEventListener::loadDceCodeEditor
  */
@@ -121,29 +121,27 @@ class DceCodeMirrorFieldRenderType extends AbstractFormElement
                 ->executeQuery()
                 ->fetchAllAssociative();
 
-            if (is_array($rows)) {
-                foreach ($rows as $row) {
-                    if ('2' === $row['type']) {
-                        $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
-                            'tx_dce_domain_model_dcefield'
-                        );
-                        $sectionFields = $queryBuilder
-                            ->select('*')
-                            ->from('tx_dce_domain_model_dcefield')
-                            ->where(
-                                $queryBuilder->expr()->eq(
-                                    'parent_field',
-                                    $queryBuilder->createNamedParameter($row['uid'], Connection::PARAM_INT)
-                                )
+            foreach ($rows as $row) {
+                if ('2' === $row['type']) {
+                    $queryBuilder = DatabaseUtility::getConnectionPool()->getQueryBuilderForTable(
+                        'tx_dce_domain_model_dcefield'
+                    );
+                    $sectionFields = $queryBuilder
+                        ->select('*')
+                        ->from('tx_dce_domain_model_dcefield')
+                        ->where(
+                            $queryBuilder->expr()->eq(
+                                'parent_field',
+                                $queryBuilder->createNamedParameter($row['uid'], Connection::PARAM_INT)
                             )
-                            ->orderBy('sorting', 'ASC')
-                            ->executeQuery()
-                            ->fetchAllAssociative();
-                        $row['hasSectionFields'] = true;
-                        $row['sectionFields'] = $sectionFields;
-                    }
-                    $fields[] = $row;
+                        )
+                        ->orderBy('sorting', 'ASC')
+                        ->executeQuery()
+                        ->fetchAllAssociative();
+                    $row['hasSectionFields'] = true;
+                    $row['sectionFields'] = $sectionFields;
                 }
+                $fields[] = $row;
             }
         }
 

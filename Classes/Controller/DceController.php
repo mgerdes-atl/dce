@@ -5,7 +5,7 @@ namespace T3\Dce\Controller;
 /*  | This extension is made with love for TYPO3 CMS and is licensed
  *  | under GNU General Public License.
  *  |
- *  | (c) 2012-2024 Armin Vieweg <armin@v.ieweg.de>
+ *  | (c) 2012-2025 Armin Vieweg <armin@v.ieweg.de>
  *  |     2019 Stefan Froemken <froemken@gmail.com>
  */
 use Psr\Http\Message\ResponseInterface;
@@ -28,9 +28,6 @@ class DceController extends ActionController
         $contentObject = $this->request->getAttribute('currentContentObject');
         if ($contentObject instanceof ContentObjectRenderer) {
             $contentObject = $contentObject->data;
-        } else {
-            // "currentContentObject" attribute not available in backend context
-            $contentObject = $this->configurationManager->getContentObject()->data;
         }
 
         $config = $this->configurationManager->getConfiguration(
